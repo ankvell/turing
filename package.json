@@ -1,0 +1,26 @@
+{
+  "name": "turing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^3.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankvell/turing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ankvell/turing/issues"
+  },
+  "homepage": "https://github.com/ankvell/turing#readme"
+}
