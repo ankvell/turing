@@ -91,21 +91,35 @@
          });
 
          describe('an array', function() {
-             var a = [1, 2, 3, 4, 5];
+             var a = {
+                 one: '1',
+                 two: '2',
+                 three: '3'
+             };
+             var b = [5, 6, 7, 8, 9, 10];
 
              it('should iterate with each', function() {
                  var count = 0;
                  turing.enumerable.each(a, function(n) {
                      count += 1;
                  });
-                 return count.should.equal(5);
+                 count.should.equal(3);
              });
 
              it('should iterate with map', function() {
-                 return turing.enumerable.map(a, function(n) {
-                     return n + 1;
+                 var mapped = turing.enumerable.map(a, function(elem) {
+                     return elem + 1;
                  });
+                 return mapped.toString.should.equal([11, 21, 31].toString);
              });
+
+             it('should filter arrays', function() {
+                 var filtered = turing.enumerable.filter(b, function(elem) {
+                     return elem % 2 == 0;
+                 });
+                 return filtered.toString.should.equal([6, 8, 10].toString);
+             });
+
          });
 
      });

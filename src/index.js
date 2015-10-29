@@ -32,23 +32,24 @@ module.exports = {
         }
         return klass;
     },
+
     enumerable: {
         breaker: {},
-        isNumber: function(n) {
-            return (n === +n) || (toString.call(n) === '[object Number]');
+        isNumber: function(num) {
+            return (num === +num) || (toString.call(num) === '[object Number]');
         },
-        each: function(obj, iterator, context) {
+        each: function(array, action) {
             try {
-                if (Array.prototype.forEach && obj.forEach === Array.prototype.forEach) {
-                    obj.forEach(iterator, context);
-                } else if (this.isNumber(obl.length)) {
-                    for (var i = 0, l = obj.length; i < l; i++) {
-                        iterator.call(context, obj[i], i, obj);
+                if (Array.prototype.forEach && array.forEach === Array.prototype.forEach) {
+                    array.forEach(action);
+                } else if (this.isNumber(array.length)) {
+                    for (var ii = 0; ii < array.length; ii++) {
+                        action(array[ii]);
                     }
                 } else {
-                    for (var key in obj) {
-                        if (hasOwnProperty.call(obj, key)) {
-                            iterator.call(context, obj[key], key, obj);
+                    for (var key in array) {
+                        if (hasOwnProperty.call(array, key)) {
+                            action(array[key]);
                         }
                     }
                 }
@@ -57,16 +58,27 @@ module.exports = {
                     throw e;
                 }
             }
-            return obj;
+            return array;
         },
-        map: function(obj, iterator, context) {
-            if (Array.prototype.map && obj.map === Array.prototype.map) {
-                return obj.map(iterator, context);
+        map: function(array, action) {
+            if (Array.prototype.map && array.map === Array.prototype.map) {
+                return array.map(action);
             }
 
             var results = [];
-            this.obj.each(obj, function(value, index, list) {
-                results.push(iterator.call(context, value, index, list));
+            this.each(array, function(elem) {
+                results.push(action(elem));
+            });
+            return results;
+        },
+        filter: function(array, action) {
+            if (Array.prototype.filter && array.filter === Array.prototype.filter) {
+                array.filter(action);
+            }
+
+            var results = [];
+            this.each(array, function(elem) {
+                results.push(action(elem));
             });
             return results;
         }
