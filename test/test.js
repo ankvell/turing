@@ -120,6 +120,14 @@
                  return filtered.toString.should.equal([6, 8, 10].toString);
              });
 
+             it('should filter objects and return a multi-dimensional array', function() {
+
+                 var filteredObj = turing.enumerable.filter(a, function(v, i) {
+                     return v > 2;
+                 })[0][0];
+                 return filteredObj.should.equal('one');
+
+             });
          });
 
      });

@@ -35,9 +35,14 @@ module.exports = {
 
     enumerable: {
         breaker: {},
+
         isNumber: function(num) {
             return (num === +num) || (toString.call(num) === '[object Number]');
         },
+        isArray: function(object) {
+            return !!(object && object.concat && object.unshift && !object.callee)
+        },
+
         each: function(array, action) {
             try {
                 if (Array.prototype.forEach && array.forEach === Array.prototype.forEach) {
@@ -75,11 +80,18 @@ module.exports = {
             if (Array.prototype.filter && array.filter === Array.prototype.filter) {
                 array.filter(action);
             }
-
             var results = [];
-            this.each(array, function(elem) {
-                results.push(action(elem));
-            });
+            var notArr = !this.isArray(array);
+
+            if (notArr) {
+                for (var key in array) {
+                    results.push([key, array[key]]);
+                }
+            } else {
+                this.each(array, function(elem) {
+                    results.push(elem);
+                });
+            }
             return results;
         }
     }
