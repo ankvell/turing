@@ -128,6 +128,13 @@
                  return filteredObj.should.equal('one');
 
              });
+
+             it('should detect item', function() {
+                 var detected = turing.enumerable.detect(['bob', 'sam', 'bill'], function(name) {
+                     return name === 'sam';
+                 });
+                 return detected.should.equal('sam');
+             });
          });
 
      });

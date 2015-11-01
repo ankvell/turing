@@ -81,9 +81,9 @@ module.exports = {
                 array.filter(action);
             }
             var results = [];
-            var notArr = !this.isArray(array);
+            var isObj = !this.isArray(array);
 
-            if (notArr) {
+            if (isObj) {
                 for (var key in array) {
                     results.push([key, array[key]]);
                 }
@@ -93,6 +93,21 @@ module.exports = {
                 });
             }
             return results;
+        },
+        detect: function(array, action, context) {
+
+            var results;
+            this.each(array, function(elem) {
+                try {
+                    if (action.call(context, elem)) {
+                        results = elem;
+                    }
+                } catch (e) {
+                    if (e != this.breaker) throw e;
+                }
+            });
+            return results;
         }
+
     }
 };
